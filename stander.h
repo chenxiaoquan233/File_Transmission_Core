@@ -37,4 +37,4 @@
 #include <dirent.h>
 #endif
 
-const int MAX_PACKET_LEN = 1024;
+const int MAX_PACKET_LEN = 65536;
