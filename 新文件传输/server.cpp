@@ -19,8 +19,10 @@ void work(char* argv1, char* argv2, char* argv3)
 	{
 		if ((filename = recv_filename()).empty()) { puts("获取文件名失败！"); return; }
 		if ((total_len = recv_total_len()) == -1) { puts("获得文件总长失败！"); return; }
-		if ((offset = read_logfile())== -1) { puts("获取log文件偏移量失败"); return; }
+		if ((offset = read_logfile(logname))== -1) { puts("获取log文件偏移量失败"); return; }
 		if (!(send_offset())) { puts("发送文件偏移量失败！"); return; }
+		if (!(check_local_file(filename,total_len))) { puts("检测缓存文件失败！"); return; }
+		if (!(send_ack())) { puts("发送文件偏移量失败！"); return; }
 		
 	}
 	/*获取所有文件,每接到一片就通过偏移量用指针写入(覆盖缓存文件中),同时更新本地log*/
@@ -44,27 +46,29 @@ bool read_folder_info(char* argv1)
 {
 	//判断argv1是不是个文件夹
 }
-bool check_local_file(string filename,string logname, long long filelen)
+bool check_local_file(string filename, long long filelen)
 {
-	//和下面配套：检查本地是否有该文件,如果无,调用下面的函数写一个filelen大小的缓存文件
+	//和下面配套：检查本地是否有该文件,如果无,调用下面的函数写一个filelen大小的缓存文件,同时初始化fileptr
 }
 bool create_new_file(string filename, long long filelen)
 {
 
 }
-bool write_file(string filename,long long offset,string data)
+bool write_file(FILE* fileptr,long long offset,string data)
 {
 	//在文件中根据偏移量写入data文件（覆盖写入）
 }
-long long read_logfile(string filename)
+long long read_logfile(string logname)
 {
 	//和下面配套:读取/写入log文件,传递offset信息
+	//logname为文件名,所在文件夹为argv1
+	//当文件存在时,初始化logptr并且返回文件内值即可，当文件不存在时,创建新log文件,初始化logptr并且写入0,返回0
 }
-bool write_logfile(string filename,long long offset)
+bool write_logfile(FILE* logptr,long long offset)
 {
 
 }
-bool delete_logfile(string filename)
+bool delete_logfile(FILE* logptr)
 {
 	//删除log文件
 }
@@ -104,6 +108,14 @@ void end_transmission()
 }
 
 long long recv_total_len()
+{
+
+}
+bool send_offset()
+{
+
+}
+bool send_ack()
 {
 
 }
