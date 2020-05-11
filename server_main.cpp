@@ -90,8 +90,7 @@ bool judge_input(char* argv1, char* argv2, char* argv3)
 	//判断argv1-3是否合法
 
 	//argv1
-	if ((_access(argv1, 0)) != -1)
-		if ((_access(argv1, 6)) == -1)
+	if ((_access(argv1, 0)) == -1)
 			return false;
 
 	//argv2
